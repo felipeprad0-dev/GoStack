@@ -1,0 +1,156 @@
+----------------------------------------------------------NÍVEL 1---------------------------------------------------------------
+
+-------------------AULA 1-------------------
+
+O que é Node.js:
+
+    - Permite-nos usar Javascript no back-end;
+            - Não lidamos com eventos do usuário final;
+            - Rotas e integrações;
+
+    - Plataforma (não linguagem);
+
+    - Construída em cima da V8 (Máquina que roda por trás do Chrome);
+
+    - Comparável a PHP / Ruby / Python / Go;
+
+
+O que é NPM ou Yarn (Package managers): 
+    - Instalar bibliotecas de terceiros;
+    
+    - Fornecer bibliotecas;
+
+
+Por que utilizaremos o Yarn: 
+    - Muito mais rápido;
+
+    - Está avançando mais rápido;
+
+
+Comparáveis: 
+    - Composer do PHP;
+
+    - Gems do Ruby; 
+
+    - PIP do Python;
+
+
+
+Características do Node: 
+
+    - Arquitetura Event-loop: 
+        - Baseada em eventos (Rotas na maioria das vezes);
+        - Call Stack;
+
+    - Node single-thread:
+        - C++ por trás com libuv;
+        - Background threads;
+
+    - Non-blocking I/O
+
+
+
+Frameworks: 
+
+    - ExpressJS como base:
+        - Sem opinião;
+        - Ótimo para iniciar;
+        - Micro-serviços;
+
+    - Frameworks opinados: 
+        - AdonisJS;
+        - NestJS;
+
+
+
+-------------------AULA 2-------------------
+
+API REST, como funciona: 
+
+    - Fluxo de requisição e resposta: 
+        - Requisição feita por um cliente;
+        - Resposta retornada através de uma estrutura de dados;
+        - Cliente recebe resposta e processa resultado;
+
+    - As rotas utilizam os métodos HTTP: 
+        - GET: Quando queremos buscar informação    http://minhaapi.com/users
+        - POST: Quando queremos criar alguma informação     http://minhaapi.com/users
+        - PUT: Quando queremos alterar alguma informação    http://minhaapi.com/users/1
+        - DELETE: Quando queremos apagar alguma informação    http://minhaapi.com/users/1
+               
+            |                      
+            |                                                  ____>   Parâmetro
+            |                                                 |
+            |                                                 | 
+            V                       http://minhaapi.com/users/1
+         métodos                                         |
+                                                         |
+                                                         |
+                                                         V
+                                                 Recurso / Rota
+
+
+
+Benefícios
+    
+    - Múltiplos clientes (front-end), mesmo back-end;
+    
+    - Protocólo de comunicação padronizado;
+        - Mesma estrutura para web / mobile / API pública;
+        - Comunicação com serviços externos;
+
+
+Conteúdo da requisição 
+
+                          Route Params   Query Params
+                               |            |
+                               |            |
+    GET http://api.com/company/1/users=?page2
+
+                        |          |           
+                        |          |
+                        |          |
+                        |          |
+                         \        /
+                           \    /
+                              | 
+                            Route 
+
+
+    POST http://api.com/company/1/users
+
+{                                                                               |
+    "user": {                                                                   |
+        "name": "Felipe Prado",                                                 |               Body (Apenas POST/PUT)
+        "email": "felipeprad0@outlook.com",                                     |                  Utilizamos Body ao invés dos Query Params para não poluir a URL e não mostrar      
+        "tech": ["ReactJS", "NodeJS", "React Native"]                           |                  campos sensíveis.
+    }                                                                           |
+}                                                                               |
+
+{                                                                               |
+    "Locale": "pt_BR"                                                           |               Headers
+}                                                                               |
+
+
+
+HTTP codes 
+
+    - 1xx: Informational
+
+    - 2xx: Success
+        - 200: SUCCESS 
+        - 201: CREATED
+    
+    - 3xx: Redirection 
+        - 301: MOVED PERMANENTLY 
+        - 302: MOVED 
+    
+    -4xx: Client Error 
+        - 400: BAD REQUEST 
+        - 401: UNAUTHORIZED 
+        - 404: NOT FOUND 
+
+    - 5xx: Server Error 
+        - 500: INTERNAL SERVER ERROR 
+
+    

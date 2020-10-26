@@ -1,0 +1,7 @@
+{
+  "name": "gostack",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Felipe Prado <fee_goomes@hotmail.com>",
+  "license": "MIT"
+}

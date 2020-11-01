@@ -72,11 +72,11 @@ API REST, como funciona:
         - Resposta retornada através de uma estrutura de dados;
         - Cliente recebe resposta e processa resultado;
 
-    - As rotas utilizam os métodos HTTP: 
-        - GET: Quando queremos buscar informação    http://minhaapi.com/users
-        - POST: Quando queremos criar alguma informação     http://minhaapi.com/users
-        - PUT: Quando queremos alterar alguma informação    http://minhaapi.com/users/1
-        - DELETE: Quando queremos apagar alguma informação    http://minhaapi.com/users/1
+    - As rotas utilizam os métodos HTTP (Hyper Text Transfer Protocol): 
+        - GET: Buscar informação do back-end   http://minhaapi.com/users
+        - POST: Criar alguma informação no back-end    http://minhaapi.com/users
+        - PUT/PATCH: Alterar alguma informação no back-end   http://minhaapi.com/users/1
+        - DELETE: Deletar alguma informação    http://minhaapi.com/users/1
                
             |                      
             |                                                  ____>   Parâmetro
@@ -154,3 +154,236 @@ HTTP codes
         - 500: INTERNAL SERVER ERROR 
 
     
+O json sempre deve ser retornado com um Array ou um Objeto.
+
+
+Principais tipos de parâmetros 
+
+    - Query Params: Filtros e paginação, geralmente utilizados em GET
+
+    - Route Params: Identificar recursos (Atualizar/Deletar)
+
+    - Request Body: Conteúdo na hora de criar ou editar um recurso (Informações vêm através de JSON)
+
+
+Middleware: É uma função que recebe os parâmetros 'requeste, response, next'. Interceptador de requisições que pode interromper totalmente a requisição ou alterar dados.
+    Geralmente usamos o Middleware quando desejamos que algum trecho de código seja disparado de forma automática em uma ou mais rotas da aplicação.
+
+
+
+
+
+-------------------FRONT-END COM REACT-------------------
+
+-------------------AULA 1-------------------
+
+O que é React? 
+    - Biblioteca para construção de interfaces;
+    - Utilizado para construção de Single-Page Applications (SPA);
+    - O ecossistema do React é um framework, conjunto de ferramentas que facilitam o desenvolvimento;
+    - Tudo fica dentro do javaScript;
+    - React é a biblioteca de construção de interfaces;
+    - ReactJS é o comportamento do react diretamente do browser;
+    - React Native é a soma do React com uma outra biblioteca que lida com elementos nativos;
+
+
+Vantagens 
+    - Organização do código;
+        - Componentização
+
+    - Divisão de responsabilidades;
+        - Back-end: Regra de negócio;
+        - Front-end: Interface;
+
+    - Uma API, múltiplos clientes;
+    - Programação declarativa;  
+
+
+JSX
+    - Permite escrever HTML dentro do JavaScript;
+    - Com React, podemos criar nossos próprios elementos;
+
+
+Babel / Webpack 
+    - O browser não entende todo esse código que estamos utilizando;
+    - O Babel converte o código JS de uma forma que o browser entenda;
+    - O Webpack possui várias funções:
+        - Criação do bundle, arquivo com todo código da aplicação;
+        - Ensinar ao JavaScript como importar arquivos CSS, imagens e etc;
+        - Live reload com Webpack Dev Server;
+
+
+
+-------------------AULA 2-------------------
+
+Babel: Converter (transpilar) código do React para um código que o browser entenda;
+Webpack: Pra cada tipo de arquivo (.js, .css, .png) irá converter o código de uma maneira diferente;
+Loaders: É utilizado pelo webpack. babel-loader, css-loader, image-loader
+
+Presets são conjuntos de configurações criadas por terceiros que podemos reaproveitar na aplicação.
+
+@babel/preset-env irá entender o ambiente em que a aplicação está sendo executada e irá converter o código baseado apenas no ambiente.
+@babel/preset-react irá adicionar as funcionalidades do react nessa conversão. Irá entender o HTML dentro do JavaScript e converter para uma maneira que o browser também entenda.
+
+
+
+-------------------AULA 4-------------------
+
+CONCEITO COMPONENTE:
+
+Componentização se baseia em conseguirmos dividir pedaços da nossa aplicação em componentes (conjunto isolado de HTML, CSS, JavaScript), que consegue ser reaproveitado quantas vezes a gente quiser.
+O React é totalmente baseado em componentização, ou seja, tudo dentro do React é um componente.
+
+Conceito importante: JSX quer dizer HTML dentro do JavaScript, ou traduzindo, JavaScript XML.
+
+Sempre que formos criar um componente, um arquivo que irá conter um trecho de código, o nome do arquivo deve iniciar sempre em letra MAIÚSCULA.  
+
+O componente dentro do React é simplesmente uma função, ou seja, uma função que retorna HTML.
+Todo componente precisa ter o React importado.
+Lembrar sempre de exportar o arquivo utilizando " export default 'nomedoarquivo' ".
+
+
+Conceito de Fragment: quando queremos retornar mais de um elemento HTML, teríamos que criar um container para envolvar dois ou mais elementos. Isso causaria uma confusão no CSS. Então para evitarmos de criar uma nova tag, coloquemos as tags que queremos dentro de <> </>, por exemplo: 
+                                                                                                            <>
+                                                                                                                <Header />
+                                                                                                                <Header />
+                                                                                                            </>
+
+
+
+-------------------AULA 5-------------------
+
+Três principais conceitos do React: - Componente 
+                                    - Propriedade 
+                                    - Estado e Imutabilidade
+
+
+CONCEITO PROPRIEDADE:
+
+Propriedade é alguma informação que podemos passar de um componente Pai para um componente Filho.
+
+
+A partir de que adicionamos atributos ao componente no react, chamamos isso de propriedades. 
+As funções dos componentes recebem 'props' (propriedades) como parâmetros, e assim conseguimos acessar os atributos/propriedades atribuídos.
+Para incluir uma variável/função dentro do HTML que está dentro do JavaScript, utilizamos {}. Exemplo: 
+
+
+function App() {
+    return (
+    <>
+        <Header nomedaprop="Homepage"/>
+        <Header nomedaprop="Projects"/> 
+    </>
+    );
+}
+
+
+import React from 'react';
+
+export default function Header({ props }) {
+    return (
+        <header>
+            <h1>{ props.nomedaprop }</h1>
+        </header>
+    );
+}
+
+
+--OU--
+
+
+import React from 'react';
+
+export default function Header({ nomedaprop }) {
+    return (
+        <header>
+            <h1>{ nomedaprop }</h1>
+        </header>
+    );
+}
+
+
+
+
+Uma propriedade que podemos usar chama-se children, ela é incluída automaticamente pelo React. Se quisermos adicionar um conteúdo nos header dos exemplos acima, teremos acesso através dessa propriedade específica. Exemplo 
+
+import React from 'react';
+
+import Header from './components/Header';
+
+function App() {
+    return (
+    <>
+        <Header title="Homepage">
+            <ul>
+                <li>Homepage</li>
+                <li>Projects</li>
+            </ul>
+        </Header>
+        <Header title="Projects">
+            <ul>
+                <li>Homepage</li>
+                <li>Projects</li>
+                <li>Login</li>
+            </ul>
+        </Header> 
+    </>
+    );
+}
+
+export default App;
+
+
+import React from 'react';
+
+export default function Header({ title, children }) {
+    return (
+        <header>
+            <h1>{title}</h1>
+
+            {children}
+        </header>
+    );
+}
+
+
+
+-------------------AULA 6-------------------
+
+CONCEITO ESTADO E IMUTABILIDADE:
+
+Entendesse por imutável, algo não esta sujeito a mudar/alterar. É esse conceito que levamos para o estado, pois não conseguimos alterar da maneira tradicional como era feito no javascript antigamente, apenas conseguimos alterar com o método setState.
+
+
+Devemos evitar no React qualquer método ou função que altera diretamente o valor original da variável. Devemos utilizar funções que irá gerar um novo array, um novo valor.
+
+nomedaconst.map() percorre o array e automaticamente retorna algo.
+
+Função useState() retorna um array com 2 posições.
+    Na primeira posição ele retorna a variável com o seu valor inicial/original;
+    Na segunda posição é uma função para atualizarmos esse valor;
+
+
+
+
+-------------------AULA 7-------------------
+
+css-loader: Vai ler o arquivo CSS e conseguir interpretar as importações.
+style-loader: Irá injetar dentro do HTML o CSS interpretado pelo css-loader 
+
+file-loader: Será utilizado para carregar arquivos dentro da nossa aplicação.
+
+
+
+
+-------------------AULA 8-------------------
+
+Axios é o responsável por fazer as chamadas API no Front-end, ou seja, conectar o Front-end ao Back-end.
+
+Função useEffect() é utilizado para disparar funções sempre que tivermos alguma informação alterada.
+
+Cors permite que qualquer Front-end, vindo de qualquer URL, tenha acesso ao noss Back-end. Para ambientes de desenvolvimento é seguro, mas conseguimos configurar para deixar seguro.
+
+
+
+-------------------AULA 9-------------------

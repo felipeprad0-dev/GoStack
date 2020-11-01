@@ -1,18 +1,21 @@
 {
-  "name": "gostack",
+  "name": "backend",
   "version": "1.0.0",
-  "main": "Backend/src/index.js",
-  "author": "Felipe Prado <fee_goomes@hotmail.com>",
+  "main": "src/server.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon Backend/src/index.js"
+    "dev": "nodemon",
+    "test": "jest"
   },
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "uuid": "^8.3.0",
     "uuidv4": "^6.2.4"
   },
   "devDependencies": {
-    "nodemon": "^2.0.6"
+    "jest": "^25.2.6",
+    "nodemon": "^2.0.2",
+    "supertest": "^4.0.2"
   }
 }

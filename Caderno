@@ -1,6 +1,8 @@
-----------------------------------------------------------NÍVEL 1---------------------------------------------------------------
+---------------------------------------------------------NÍVEL 1---------------------------------------------------------
 
--------------------AULA 1-------------------
+---------------------------------------------------------BACK-END COM NODE.JS---------------------------------------------------------
+
+--------------------------------------AULA 1--------------------------------------
 
 O que é Node.js:
 
@@ -63,7 +65,8 @@ Frameworks:
 
 
 
--------------------AULA 2-------------------
+
+--------------------------------------AULA 2--------------------------------------
 
 API REST, como funciona: 
 
@@ -173,9 +176,9 @@ Middleware: É uma função que recebe os parâmetros 'requeste, response, next'
 
 
 
--------------------FRONT-END COM REACT-------------------
+---------------------------------------------------------FRONT-END COM REACT.JS---------------------------------------------------------
 
--------------------AULA 1-------------------
+--------------------------------------AULA 1--------------------------------------
 
 O que é React? 
     - Biblioteca para construção de interfaces;
@@ -214,49 +217,138 @@ Babel / Webpack
 
 
 
--------------------AULA 2-------------------
+
+--------------------------------------AULA 2--------------------------------------
+
+CONFIGURANDO BABEL:
+
+Começar um projeto adicionando o react e react-DOM. 
+Se for mobile, react e react-native.
+
+Após isso, configurar o babel adicionando @babel/core ,@babel/preset-env, @babel/preset-react
+E também adicionar o webpack e webpack-cli
 
 Babel: Converter (transpilar) código do React para um código que o browser entenda;
 Webpack: Pra cada tipo de arquivo (.js, .css, .png) irá converter o código de uma maneira diferente;
-Loaders: É utilizado pelo webpack. babel-loader, css-loader, image-loader
+Loaders: É utilizado pelo webpack. babel-loader, css-loader, image-loader, file-loader;
+
+Os arquivos para configurações do babel e webpack são: 'babel.config.js' e 'webpack.config.js'
+
+No 'babel.config.js', adicionar os presets e exportar o módulo.
 
 Presets são conjuntos de configurações criadas por terceiros que podemos reaproveitar na aplicação.
 
 @babel/preset-env irá entender o ambiente em que a aplicação está sendo executada e irá converter o código baseado apenas no ambiente.
 @babel/preset-react irá adicionar as funcionalidades do react nessa conversão. Irá entender o HTML dentro do JavaScript e converter para uma maneira que o browser também entenda.
 
+Ao final, adicionar com o yarn, o @babel/cli que é uma interface de linha de comando que consegue utilizar o babel para executar o arquivo. --> 'yarn babel diretorio/nomedapasta --out-file diretorio/bundle.js'
 
 
--------------------AULA 4-------------------
+
+
+--------------------------------------AULA 3--------------------------------------
+
+CONFIGURANDO WEBPACK: 
+
+Iniciando já no 'webpack.config.js' exportando o módulo, adicionando o arquivo de entrada (entry).
+
+Como o arquivo de config do webpack é executado pelo próprio node, temos acesso ao path. Requerir o path assim: const path = require('path');
+
+Após isso, definir como arquivo de entrada, path.resolve(__dirname, 'pasta', 'arquivo')
+
+Além do entry, temos o output, que é qual arquivo que será gerado após ele ser convertido, que é o bundle.js ---> path.resolve(__dirname, 'pasta')
+                                                                                                                  filename: 'bundle.js'
+
+Adicionar com o yarn o babel-loader.
+
+Para adicionar regras como: para arquivos .js, utilizar o babel. Para outras extensões, o babel não pode ser utilizado. Então, module: {
+                                                                                                                                 rules: [ 
+                                                                                                                                    {
+                                                                                                                                        test: /\.js$/
+                                                                                                                                        exclude: /node_modules/,
+                                                                                                                                        use: {
+                                                                                                                                            loader: 'babel-loader',
+                                                                                                                                        }
+                                                                                                                                    } 
+
+                                                                                                                                ] 
+                                                                                                                            }
+
+Após isso, rodar yarn webpack --mode development para ele converter o arquivo.
+Adicionar também com o yarn o webpack-dev-server -D para instalar o live reloading, que basicamente é atualizar a aplicação toda vez que a mesma sofrer uma alteração. 
+E lembrar de criar uma propriedade no nivel mais alto do module, chamada devServer, com uma única propriedade dentro, o contentBase, indicando qual o caminho pro diretório que contenha os arquivos públicos da aplicação.  
+
+devServer: {
+    contentBase: path.resolve(__dirname, 'pastapublicadaaplicação')
+},
+module: {
+                                                                                                                             
+        rules: [ 
+          {
+              test: /\.js$/,
+              exclude: /node_modules/,
+              use: {
+                  loader: 'babel-loader',
+              }
+
+          }                                                                    
+      ] 
+  }
+
+Para rodar o live reloading, ou yarn webpack-dev-server --mode development ou yarn webpack serve --mode development. Provavelmente será executado na porta 8080.
+
+Agora o ambiente está pronto para iniciar com o React.
+
+
+
+
+--------------------------------------AULA 4--------------------------------------
+
+Três principais conceitos do React: - Componente 
+                                    - Propriedade 
+                                    - Estado e Imutabilidade
+
 
 CONCEITO COMPONENTE:
 
-Componentização se baseia em conseguirmos dividir pedaços da nossa aplicação em componentes (conjunto isolado de HTML, CSS, JavaScript), que consegue ser reaproveitado quantas vezes a gente quiser.
-O React é totalmente baseado em componentização, ou seja, tudo dentro do React é um componente.
+Componentização se baseia em conseguirmos dividir pedaços da nossa aplicação em componentes (como um botão, um formulário )(conjunto isolado de HTML, CSS, JavaScript), que consegue ser reaproveitado quantas vezes a gente quiser.
+
+O React é totalmente baseado em componentização, ou seja, tudo dentro do React é um componente. Ou seja, o header é um componente, body, e até mesmo a página principal inteira.
+
+É uma boa prática ter uma pasta para isolar os componentes.
 
 Conceito importante: JSX quer dizer HTML dentro do JavaScript, ou traduzindo, JavaScript XML.
 
 Sempre que formos criar um componente, um arquivo que irá conter um trecho de código, o nome do arquivo deve iniciar sempre em letra MAIÚSCULA.  
 
-O componente dentro do React é simplesmente uma função, ou seja, uma função que retorna HTML.
-Todo componente precisa ter o React importado.
+Todo componente precisa ter o React importado dentro. Toda vez que for usado o JSX, mesmo que o react não esteja sendo utilizado no momento.
+
+Todo código gerado pelo react e gerado pelos componentes do react irá dentro da div com id="app".
+
+O componente dentro do React é simplesmente uma função, ou seja, uma função que retorna HTML. Mais tarde podemos ter css e javascript.
+    Exemplo: function App() {
+                return <h1>Hello World</h1>
+             }
+
 Lembrar sempre de exportar o arquivo utilizando " export default 'nomedoarquivo' ".
 
+Lembrar também de  importar o arquivo 'App' para o arquivo principal, geralmente o index.js. A partir disso, tudo o que estiver dentro do arquivo App, será renderizado.
+E também lembrar de importar o render do react-dom dentro index.js.
+Muito necessário também é importar os componentes dentro do arquivo principal. Ou seja, dentro do 'App', importar o "Header" por exemplo.
 
-Conceito de Fragment: quando queremos retornar mais de um elemento HTML, teríamos que criar um container para envolvar dois ou mais elementos. Isso causaria uma confusão no CSS. Então para evitarmos de criar uma nova tag, coloquemos as tags que queremos dentro de <> </>, por exemplo: 
+Conceito de Fragment: quando queremos retornar mais de um elemento HTML, teríamos que criar um container para envolver dois ou mais elementos. Isso causaria uma confusão no CSS. Então para evitarmos de criar uma nova tag, coloquemos as tags que queremos dentro de <> </>, por exemplo: 
                                                                                                             <>
                                                                                                                 <Header />
                                                                                                                 <Header />
                                                                                                             </>
 
 
+Para retornar um conteúdo HTML tendo mais de uma linha, basta apenas envolver com parênteses em volta. return(conteúdo).
 
--------------------AULA 5-------------------
 
-Três principais conceitos do React: - Componente 
-                                    - Propriedade 
-                                    - Estado e Imutabilidade
 
+
+--------------------------------------AULA 5--------------------------------------
 
 CONCEITO PROPRIEDADE:
 
@@ -280,7 +372,7 @@ function App() {
 
 import React from 'react';
 
-export default function Header({ props }) {
+export default function Header(props) {
     return (
         <header>
             <h1>{ props.nomedaprop }</h1>
@@ -289,7 +381,7 @@ export default function Header({ props }) {
 }
 
 
---OU--
+--OU PODEMOS DESESTRUTURAR A PROPRIEDADE--
 
 
 import React from 'react';
@@ -305,7 +397,7 @@ export default function Header({ nomedaprop }) {
 
 
 
-Uma propriedade que podemos usar chama-se children, ela é incluída automaticamente pelo React. Se quisermos adicionar um conteúdo nos header dos exemplos acima, teremos acesso através dessa propriedade específica. Exemplo 
+Uma propriedade que podemos usar chama-se children, ela é criada automaticamente pelo React. Se quisermos adicionar um conteúdo nos Headers dos exemplos acima, teremos acesso através dessa propriedade específica. Exemplo 
 
 import React from 'react';
 
@@ -348,42 +440,329 @@ export default function Header({ title, children }) {
 
 
 
--------------------AULA 6-------------------
+
+--------------------------------------AULA 6--------------------------------------
 
 CONCEITO ESTADO E IMUTABILIDADE:
 
-Entendesse por imutável, algo não esta sujeito a mudar/alterar. É esse conceito que levamos para o estado, pois não conseguimos alterar da maneira tradicional como era feito no javascript antigamente, apenas conseguimos alterar com o método setState.
+Antes de tudo, importar junto com o React o useState, assim: import React, { useState } from 'react';
 
+É um conceito para garantirmos performance, mesmo em aplicações que contenha muitos dados.
 
+Entende-se por imutável algo que não está sujeito a mudança/alteração. Não podemos alterar uma variável, seja incluir ou excluir informações de uma maneira direta. Devemos sempre REcriar a informação com as alterações que queremos. É esse conceito que levamos para o estado, pois não conseguimos alterar da maneira tradicional como era feito no JavaScript antigamente, apenas conseguimos alterar com o método setState.
+
+Imagine que em algum momento, queremos e manipular alguma informação dentro do componente App, como uma listagem de projetos. 
+Cria-se uma variável com o nome que quisermos, começando ela com um array vazio. Após isso, colocamos alguns projetos dentro desse array. 
 Devemos evitar no React qualquer método ou função que altera diretamente o valor original da variável. Devemos utilizar funções que irá gerar um novo array, um novo valor.
 
-nomedaconst.map() percorre o array e automaticamente retorna algo.
+nomedaconst.map é a maneira mais fácil de percorrer o array e automaticamente retornando algo.
+{nomedaconst.map(nomequalquer => {return})} 
+ou
+{nomedaconst.map(nomequalquer => (colocar conteúdo diretamente aqui))}
+ou se for uma única linha, coloca direto 
+{nomedaconst.map(nomequalquer => <li></li>)}
 
-Função useState() retorna um array com 2 posições.
+Quando nós fazemos uma interação, ou seja, quando percorremos uma lista/vetor e vai mostrando vários itens em tela, o React precisa que identifique no primeiro elemento que vem logo no começo da interação, com a propriedade 'key' 
+{nomedaconst.map(nomequalquer => <li key={nomequalquer}>nomequalquer</li>)}
+
+Ao criarmos um botão dependente da ação onClick, no tradicional HTML colocaríamos entre aspas ' "" 'o nome de uma função do JavaScript: <button onClick="handleAdd">Adicionar algo</button>
+Como estamos lidando com o React, colocaríamos o nome de uma função do JavaScript entre '{}': <button onClick={handleAdd}>Adicionar algo</button>. Para isso, teríamos que criar uma função com o nome handleAdd com alguma instrução.
+
+Toda vez que estamos lidando com uma ação do usuário, começamos o nome da função sempre com 'handle'.
+
+Dentro de uma string, como o título do projeto, utilizamos `...` para poder adicionar uma variável entre ${}, exatamente como o exemplo: projects.push(`Novo projeto ${Date.now}`)
+
+Quando envolvemos o valor inicial de uma variável com a função useState(), estamos transformando ela em um estado. Isso fará com que a variável não tenha acesso diretamente ao valor que contém.
+
+Com isso, a função useState() retorna um array com 2 posições.
     Na primeira posição ele retorna a variável com o seu valor inicial/original;
     Na segunda posição é uma função para atualizarmos esse valor;
 
+Assim, podemos desestruturar o nome da variável para [1 posição = nome da variável, 2 posição função que atualiza o valor (setNomeDaVariavel)]
+
+É a função setNomeDaVariavel que chamamos quando desejamos alterar o valor da variável.
+
+O método '.push' não respeita o conceito da imutabilidade e altera o valor original da variável sem criar um novo array. 
+
+Por isso, trocar o '.push' pelo setNomeDaVariavel().
+
+Com o setNomeDaVariavel, criamos um novo array ---> setNomeDaVariavel([]),
+Copiamos tudo o que já tem dentro da variável, utilizando o spread operator (...) ---> setNomeDaVariavel([...nomeDaVariavel]),
+E assim, adicionamos o a alteração que queremos ao final ---> setNomeDaVariavel([...nomeDaVariavel, `Novo projeto ${Date.now}`])
 
 
 
--------------------AULA 7-------------------
 
-css-loader: Vai ler o arquivo CSS e conseguir interpretar as importações.
-style-loader: Irá injetar dentro do HTML o CSS interpretado pelo css-loader 
+--------------------------------------AULA 7--------------------------------------
 
-file-loader: Será utilizado para carregar arquivos dentro da nossa aplicação.
+Para estilizar e utilizar imagens na aplicação, primeiro precisamos instalar dois pacotes: css-loader e style-loader;
+
+css-loader: Irá ler o arquivo CSS e conseguir também interpretar as importações.
+style-loader: Irá pegar o CSS interpretado pelo css-loader e injetar dentro do HTML.  
+
+Devemos configurar um novo loader no webpack.config.js, criando uma nova regra para arquivos que terminam com .css;
+
+Adicionar dentro de rules:
+{
+              test: /\.css$/,
+              exclude: /node_modules/,
+              use: [
+                { loader : 'style-loader' },
+                { loader : 'css-loader' },
+              ]
+
+          }          
+
+No 'use' colocamos um array porque utilizaremos dois loaders.
+
+Toda e qualquer alteração feita no webpack.config.js, é necessário reiniciar o servidor.
+
+Após configurado, rodar o servidor de novo e criar um App.css para estilização. E sempre lembrar de importar os arquivos no arquivo App principal.
+
+No arquivo 'package.json', criar dois scripts: O "dev": "webpack serve --mode development" que irá executar o servidor através do yarn dev
+                                               E outro para quando jogarmos nossa aplicação online, "build": "webpack --mode production"
+
+
+Instalar o file-loader e configurar dentro do webpack.config.js criando uma nova regra para certos tipos de arquivos.
+
+Adicionar dentro de rules: 
+{
+ test: /.*\.(gif|png|jpe?g)$/i,
+ use: {
+    loader: 'file-loader',
+ }
+}
+
+.* significa ter qualquer quantidade de caractéres.
+jpe?g significa que a extensão pode ter o 'e' como também pode não ter.
+$ significa que é o fim da linha.
+i significa que está incluso caractéres maiúsculos.
+
+O file-loader: Será utilizado para carregar arquivos dentro da nossa aplicação.
+
+Para renderizar a imagem, devemos também importar a imagem dentro do arquivo. ---> import qualquerNomeQueQuisermos from './pasta/nomedaimagem.extensão'
+
+Utilizaremos a tag 'img' e ao invés de passar um endereço url ao atributo 'src', podemos passar uma variável do JavaScript com o nome da imagem definido na hora do import entre chaves '{qualquerNomeQueQuisermos}'
+
+Toda e qualquer alteração feita no webpack.config.js, é necessário reiniciar o servidor.
+
+Se a imagem estiver em um tamanho ruim, podemos colocar o atributo 'width' na tag 'img', passando o valor que queremos entre aspas "n" ou entre chaves {n}.
 
 
 
 
--------------------AULA 8-------------------
+--------------------------------------AULA 8--------------------------------------
 
-Axios é o responsável por fazer as chamadas API no Front-end, ou seja, conectar o Front-end ao Back-end.
+Conectando o front-end feito no react com o back-end feito em node.
 
-Função useEffect() é utilizado para disparar funções sempre que tivermos alguma informação alterada.
+Para isso, executar o servidor do back-end também.
 
-Cors permite que qualquer Front-end, vindo de qualquer URL, tenha acesso ao noss Back-end. Para ambientes de desenvolvimento é seguro, mas conseguimos configurar para deixar seguro.
+Instalar o módulo Axios que é o responsável por fazer as chamadas API no Front-end, ou seja, conectar o Front-end ao Back-end.
+
+Criar uma pasta chamada 'services' para armazenar qualquer tipo de arquivo que irá fornecer a comunicação com algum serviço externo. 
+
+Criar o arquivo api.js e importar o axios from 'axios', após isso criar uma variável api que recebe o axios.create({}), assim criando uma instância do axios. Assim adicionaremos o baseURL, que seria a base_url configurado no insomnia. Adicionando a baseURL, descrever o localhost:porta entre aspas. 
+
+Após esse passo, exportar o arquivo api através do export default e lembrar de importar o arquivo api no arquivo App principal.
+
+Assim que o nosso componente for carregado em tela, precisamos carregar as informações de projetos que estão contidos na API, e para isso, devemos importar junto ao react o useEffect, assim: import React, { useState, useEffect } from 'react';
+
+A função useEffect() é utilizada para disparar funções sempre que tivermos alguma informação alterada, ou simplesmente quando queremos disparar alguma função.
+Esta função recebe dois parâmetros: o primeiro parâmetro é: Qual a função queremos disparar. ---> useEffect(() => {}),
+                                    o segundo parâmetro é: Quando queremos disparar essa função. ---> useEffect(() => {}, [])
+
+Se quisermos que essa função seja disparada assim que a variável tivesse o valor alterado, utilizamos o nome dela na função, assim: useEffect(() => {}, [nomeDaVariavel])
+
+Caso quisermos que essa função fosse disparada apenas uma vez, ou seja, assim que o componente for mostrado em tela, então o array fica vazio, assim: useEffect(() => {}, [])
+
+Este array é conhecido como 'array de dependências'. Nele, vamos incluir principalmente as variáveis que utilizamos dentro da primeira função, porque obrigatoriamente e provavelmente, se tivermos utilizando alguma variável dentro da primeira função, quer dizer que quando essa variável alterar, queremos executar essa função novamente.
+
+Como queremos buscar a lista de informações, devemos utilizar o método get, então: api.get
+Após o método, colocamos a rota, utilizando a barra ou não.
+Como irá demorar um pouco pra responder, podemos utilizar o 'async/await' ou o próprio '.then', ou seja, quando o 'api.get('rota')' nos retornar alguma resposta, iremos ter essa resposta disponível dentro do '.then' através do 'response', assim: api.get('rota').then(response => ).
+E dentro do response, podemos usar o console.log(useEffect) para ver o formato dessa resposta, assim: api.get('rota').then(response => { console.log (useEffect) })
+
+useEffect(() => {
+    api.get('rota').then(response => { console.log (response) })
+    }, []);
+
+Caso dê um erro de CORS, é porque o back-end tem técnicas de segurança para evitar front-ends desconhecidos de fazerem requisições e obter os dados. Então, devemos configurar o Cors no back-end.
+
+Instalar o módulo cors através do yarn, após concluído, requerir o cors dentro do index.js do back-end através de uma variável, assim: const cors = require('cors');
+
+E antes de tudo, logo quando o app é criado, colocamos o comando 'api.use(cors());'
+
+Após esse procedimento, ele irá permitir que qualquer Front-end, vindo de qualquer URL, tenha acesso ao nosso Back-end. Para ambientes de desenvolvimento é seguro, mas conseguimos configurar dentro do cors para deixar seguro.
+
+Quando o servidor do back-end reinicia, perdemos as informações do insomnia e isso é mostrado no console.log através do 'data' vazio. Então é preciso criá-las de novo.
+
+Utilizaremos esse 'data' para preencher nossos projetos, alterando-o dentro do 'api.get' que está dentro da função 'useEffect', 
+assim:
+
+useEffect(() => {
+    api.get('rota').then(response => { setNomeDaVariavel(response.data) })
+    }, []); 
+
+Antes de fazermos a conexão com a API, nossos projetos eram apenas strings. Nessa altura, a API está retornando que cada projeto é um objeto contendo id, title, owner. Então, não podemos mais inicializar nosso estado com strings, pois dará um erro. Devemos modificar para inicializar nossos projetos com array vazio, para não termos nenhuma informação dentro, assim: 
+
+É importante que toda vez que inicializamos um estado, que ainda definiremos qual o valor inicial, é sempre legal colocar um valor inicial que vai seguir no mesmo tipo de variável que o nosso estado terá depois. Se sempre for um array, começamos com array vazio. Se sempre for um objeto, começamos com objeto vazio. 
+
+Logo, precisamos alterar uma linha de comando que definimos no começo, o nomedaconst.map. Se deixarmos como está, retornará o objeto inteiro, o que não é interessante. Queremos agora apenas o title e também o id como key. Assim: {nomedaconst.map(xxx => <li key={xxx.id}>xxx.title</li>)} 
+
+Se tentarmos adicionar um novo projeto, dará um erro pois está configurado para adicionar uma nova string, mas agora estamos tentar pegar dados de objetos.
 
 
 
--------------------AULA 9-------------------
+
+--------------------------------------AULA 9--------------------------------------
+
+Agora vamos fazer a nossa função handleAdd adicionar novos projetos na API através do método 'post', e dentro, passamos a rota e o que queremos adicionar, assim: 
+function handleAdd() { 
+    api.post('rota', {
+        title: 'nomedoprojeto',
+        owner: 'nomedoowner'
+    });
+} 
+
+Isso retornará no console, porém não atualizará a tela com o nome do novo projeto.
+
+Devemos utilizar as informações do projeto que o back-end retornou para adicionar no final do array de projetos. 
+
+Utilizaremos async/await. Coloca-se o async antes do nome da função, assim: async function handleAdd()
+E criamos uma const response com o await antes do método, assim: 
+
+const response = await api.post('rota', {
+        title: 'nomedoprojeto',
+        owner: 'nomedoowner'
+    });
+} 
+
+O mesmo response que temos acesso dentro do '.then', temos acesso fora por conta do await.
+
+Não podemos utilizar o async/await dentro da função do useEffect.
+
+Já que temos nosso projeto com id, title e owner no response.data, criamos uma constante project com o valor atribuido, assim: const project = response.data
+
+E para adicionar-mos esse novo projeto no final do array de projetos, respeitando os conceitos de imutabilidade, utilizaremos o setNomeDaVariavel, criando um novo array, copiando todos os projetos já existentes utilizando o spread operator (...), e adiciona o novo projeto ao final, assim: setNomeDaVariavel([...nomeDaVariavel, project])
+
+Se retornar um erro de regeneratorRunTime, é porque o babel não entender requisições com async/await. Para resolver, basta adicionar um plugin com yarn add @babel/plugin-transform-runtime -D
+
+Agora, dentro do arquivo babel.config.js, adicionar o plugins: [
+                                                           '@babel/plugin-transform-runtime'     
+                                                      ]
+
+Feito isso, reiniciar o servidor, e estará tudo ok.
+
+
+bom, posso da umas dicas ai... a primeira linha ta certa (o discord deve comer umas aspas e / ai, mas pelo que to vendo ta certo.)
+so que tem que pensar uma coisa, o response que vc tem ai nao volta nenhum data, na verdade volta, mas volta vazio, pq é isso que foi programado la no backend (que nao precisa ser alterado)
+entao, na verdade vc nem vai precisar do response.... nem declarar ele... 
+basicamente a primeira linha será 
+await api.delete(etc...);
+e só....
+Se quiser ver é bom pra ir treinando, da um console.log(response) logo abaixo, que vc vai ver que ele valta um data vazio...
+antes de fazer a mudança q eu sugeri.
+Depois que pensar nisso, pensa como pode fazer pra remover do array, o repositorio que tem o ID que esta na variavel id (que veio do parametro). 
+Essa seegunda parte, é bem manipulação com Array de JavaScript. Não é tão trivil no comeco, mas tem algumas formas diferentes de fazer.
+
+
+
+
+
+---------------------------------------------------------MOBILE COM REACT NATIVE---------------------------------------------------------
+
+--------------------------------------AULA 1--------------------------------------
+
+O que é o React Native: 
+    - Versão do React para desenvolvimento mobile;
+    - Multiplataforma (Rodar no Android e IOS);
+    - Podemos manipular cada plataforma de forma diferente;
+    - Interface nativa, ele não produz interface híbrida;
+    - Código não é transpilado;
+    - Outras plataformas migrando, Microsoft com Windows;
+
+
+Arquitetura do React Native:    
+                                                                    Android
+                                                                 /
+                                                                /
+    - JS -------> Metro Bundler -------> Bundle -------> Bridge \  
+                   (packager)                           (ponte)  \ 
+                                                                    IOS
+
+
+Sintaxe: 
+    - A declaração dos componentes é igual ao web;
+    - Não usamos HTML e sim componentes próprios;
+    - Aplicamos estilos sem classes ou ID's;
+    - Todo texto é <text /> não existe estilização própria;
+
+
+Expo: 
+    - SDK com um conjunto de funcionalidades prontas para usar (câmera, vídeo, integrações);
+    - Não é necessário configurar emulador;
+    - Limitação sobre o controle do código nativo;
+    - Várias bibliotecas não tem suporte para o Expo;
+    - O Expo liberou seu conjunto de ferramentas prontas para serem utilizadas com projetos que não utilizam Expo;
+
+
+
+
+--------------------------------------AULA 4--------------------------------------
+
+DIFERENÇAS REACT E REACT NATIVE:
+
+No React Native não utilizamos elementos HTML. 
+View: representa div, footer, header, main, aside, section... Não possuem valor semântico (significado).
+
+Text: p, span, strong, h1, h2, h3... Também não têm significado, texto é texto.
+
+Além disso, os componentes do React Native não possuem estilização. Não criamos arquivos .css, essa parte é feita dentro mesmo do arquivo JavaScript e como código do JavaScript mesmo.
+
+Também não temos id e nem class no React Native.
+
+No React Native, todos os componentes possuem por padrão O "Display: flex".
+
+
+
+
+--------------------------------------AULA 5--------------------------------------
+
+Conectando o emulador ao back-end, também podemos utilizar o Axios, que é um cliente HTTP baseado em Promises para fazer requisições. Pode ser utilizado tanto no navegador quanto no Node.
+
+iOS com emulador: localhost
+
+iOS com físico: IP da máquina
+
+
+Android com emulador: usando o adb reverse tcp: n da porta  tcp: msm n da porta, vamos poder usar o localhost:porta
+
+Android com emulador: se não quisermos utilizar o adb, podemos utilizar o IP 10.0.2.2, que é o localhost do Android Studio
+
+Android com emulador Genymotion: utiliza o IP 10.0.3.2
+
+Android com físico: IP da máquina
+
+E vamos configurando exatamente como no ReactJS.
+
+Quando temos problemas com o scroll, podemos ativá-lo importando no lugar da View como ScrollView e lembrar de trocar nas tags. E quando usamos o ScrollView, não podemos utilizar o align-items nem justify-content
+
+Especificamente LISTAS, não utilizaremos ScrollView. E no lugar disso, voltamos o View e importaremos o FlatList. É um componente performático para listas dentro do react native.
+
+Não existe diferença visual da ScrollView pra FlatList. 
+
+Se tivermos uma lista muito grande, a FlatList irá performar muito melhor, porque ela só mostra em tela o que está visível.
+
+Quando utilizamos o FlatList, temos o data`={}, e passamos a variável que armazena os dados da lista. 
+O keyExtractor={} recebe o projeto e precisa retornar a informação que é unica num projeto, que é o ID.
+O renderItem={() => {return} } ou {() => () } que no caso faz o return automaticamente. A função do render recebe uma série de propriedades, o que podemos fazer é desestruturar -----> renderItem={({ item }) => () }, item representa cada um dos projetos, e no item tem o título, owner, id.
+Então, ou mudamos no Text para {item.title} ou podemos utilizar uma sintaxe do JS que é ---> item: project, isso converte a variável item em project, e nos dá a possibilidade de utilizar o project.title de novo.
+
+SafeAreaView funciona como a área segura da nossa aplicação pra ser exibido algum tipo de conteúdo.
+
+
+
+
+--------------------------------------AULA 6--------------------------------------
+
+No React Native não existe a propriedade onClick, porque não existe mouse. No lugar do click iremos utilizar Press ---> onPress
